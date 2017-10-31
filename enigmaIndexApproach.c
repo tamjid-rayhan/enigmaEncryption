@@ -25,6 +25,12 @@ char reflector[]={'y','r','u','h','q','s','l','d','p','x','n','g','o','k','m','i
 //Enigma I rotorI inverse UWYGADFPVZBECKMTHXSLRINQOJ
 char invRotor3[]={'u','w','y','g','a','d','f','p','v','z','b','e','c','k','m','t','h','x','s','l','r','i','n','q','o','j'};
 
+//Enigma I rotor II inverse
+char invRotor2[]={'a','j','p','c','z','w','r','l','f','b','d','k','o','t','y','u','q','g','e','n','h','x','m','i','v','s'};
+
+//Enigma I rotor III inverse
+char invRotor1[]={'t','a','g','b','p','c','s','d','q','e','u','f','v','n','z','h','y','i','x','j','w','l','r','k','o','m'};
+
 
 void printArray(char *k);
 char rotorForward(char m);
@@ -162,6 +168,60 @@ char rotorForward(char m){
     #ifdef DEBUG
     printf("\nInverse third rotor output is %c\n\n",r);
     #endif
+
+    //calculate inverse second rotor input index
+    index=index+rotorOffset[1]-rotorOffset[2];
+    if(index<0){
+    index=26+index;
+    }
+    index=index%26;
+    index=(index+shift2-shift3)%26;
+
+    #ifdef DEBUG
+    printf("Inverse 2nd rotor input index is %d\n",index);
+    printf("Inverse 2nd rotor input character is %c\n",basicOrder[index]);
+    #endif
+
+    //----------Inverse second rotor output index-------
+    r=invRotor2[index];
+    index=r-97;
+    #ifdef DEBUG
+    printf("\nInverse second rotor output is %c\n\n",r);
+    #endif
+
+    //calculate inverse first rotor input index
+    index=index+rotorOffset[0]-rotorOffset[1];
+    if(index<0){
+    index=26+index;
+    }
+    index=index%26;
+    index=(index+shift1-shift2)%26;
+
+    #ifdef DEBUG
+    printf("Inverse 1st rotor input index is %d\n",index);
+    printf("Inverse 1st rotor input character is %c\n",basicOrder[index]);
+    #endif
+
+    //----------Inverse first rotor output index-------
+    r=invRotor1[index];
+    index=r-97;
+    #ifdef DEBUG
+    printf("\nInverse first rotor output is %c\n\n",r);
+    #endif
+
+    //calculate plugboard input index
+    index=index-rotorOffset[0];
+    if(index<0){
+    index=26+index;
+    }
+
+    index=index-shift1;
+    if(index<0){
+    index=26+index;
+    }
+
+    //-----Final Output------
+    r=basicOrder[index];
 
     return r;
 }
