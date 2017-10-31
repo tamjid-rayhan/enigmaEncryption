@@ -1,11 +1,11 @@
 #include <stdio.h>
-#define DEBUG true
+//#define DEBUG
 
 int shift1=0;
 int shift2=0;
 int shift3=0;
 
-int rotorOffset[]={23,6,23};
+int rotorOffset[]={0,0,0};
 int ringSetting[]={26,26};
 
 char basicOrder[]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
@@ -36,17 +36,19 @@ char invRotor1[]={'t','a','g','b','p','c','s','d','q','e','u','f','v','n','z','h
 void printArray(char *k);
 char rotorForward(char m);
 
-
+char message[30];
 
 int main(){
+    int i;
+printf("Enter message: ");
+           gets(message);
 
+for(i=0;i<strlen(message);i++){
 
-//encryption
-char m=getchar();
-
-char rf=rotorForward(m);
-printf("\nRotorForward output is  %c", rf);
-
+char rf=rotorForward(message[i]);
+//printf("\nRotorForward output is  %c\n", rf);
+printf("%c",rf);
+}
 return 0;
 }
 
@@ -112,8 +114,13 @@ char rotorForward(char m){
     if (index<0){
     index =26+index;
     }
+
+
+    index=(index+shift2-shift1);
     index=index%26;
-    index=(index+shift2-shift1)%26;
+    if (index<0){
+    index =26+index;
+    }
 
     #ifdef DEBUG
     printf("Second rotor input index is %d\n",index);
@@ -135,8 +142,12 @@ char rotorForward(char m){
     index =26+index;
     }
 
+
+    index=(index+shift3-shift2);
     index=index%26;
-    index=(index+shift3-shift2)%26;
+    if (index<0){
+    index =26+index;
+    }
 
     #ifdef DEBUG
     printf("Third rotor input index is %d\n",index);
@@ -191,8 +202,13 @@ char rotorForward(char m){
     if(index<0){
     index=26+index;
     }
+
+    index=(index+shift2-shift3);
     index=index%26;
-    index=(index+shift2-shift3)%26;
+
+    if(index<0){
+    index=26+index;
+    }
 
     #ifdef DEBUG
     printf("Inverse 2nd rotor input index is %d\n",index);
@@ -205,14 +221,20 @@ char rotorForward(char m){
     #ifdef DEBUG
     printf("\nInverse second rotor output is %c\n\n",r);
     #endif
+    //--------------------------------------------------
+
 
     //calculate inverse first rotor input index
     index=index+rotorOffset[0]-rotorOffset[1];
     if(index<0){
     index=26+index;
     }
+
+    index=(index+shift1-shift2);
     index=index%26;
-    index=(index+shift1-shift2)%26;
+    if(index<0){
+    index=26+index;
+    }
 
     #ifdef DEBUG
     printf("Inverse 1st rotor input index is %d\n",index);
@@ -232,7 +254,8 @@ char rotorForward(char m){
     index=26+index;
     }
 
-    index=index-shift1;
+    index=(index-shift1)%26;
+
     if(index<0){
     index=26+index;
     }
