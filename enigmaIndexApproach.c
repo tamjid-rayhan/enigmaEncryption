@@ -80,7 +80,13 @@ char rotorForward(char m){
     //-------------------------------------
 
     //calculate second rotor input index
-    index=(index+rotorOffset[1]+shift2-rotorOffset[0]-shift1)%26;
+    index=index+rotorOffset[1]-rotorOffset[0];
+
+    if (index<0){
+    index =26+index;
+    }
+    index=index%26;
+    index=(index+shift2-shift1)%26;
 
     #ifdef DEBUG
     printf("Second rotor input index is %d\n",index);
@@ -96,7 +102,14 @@ char rotorForward(char m){
     //---------------------------------------
 
     //calculate third rotor input index
-    index=(index+rotorOffset[2]+shift3-rotorOffset[1]-shift2)%26;
+    index=index+rotorOffset[2]-rotorOffset[1];
+
+    if (index<0){
+    index =26+index;
+    }
+
+    index=index%26;
+    index=(index+shift3-shift2)%26;
 
     #ifdef DEBUG
     printf("Third rotor input index is %d\n",index);
@@ -109,6 +122,28 @@ char rotorForward(char m){
     #ifdef DEBUG
     printf("\nthird rotor output is %c\n\n",r);
     #endif
+
+    //calculate reflector input index
+    index=(index-rotorOffset[2]-shift3);
+    if(index<0){
+    index=26+index;
+    }
+    index=index%26;
+
+
+    #ifdef DEBUG
+    printf("Reflector input index is %d\n",index);
+    printf("reflector input character is %c\n",basicOrder[index]);
+    #endif
+
+    //------reflector output-----------
+    r=reflector[index];
+    index=r-97;
+
+    #ifdef DEBUG
+    printf("\nreflector output is %c\n\n",r);
+    #endif
+
 
     return r;
 }
