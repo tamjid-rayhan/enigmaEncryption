@@ -6,6 +6,7 @@ int shift2=0;
 int shift3=0;
 
 int rotorOffset[]={23,6,23};
+int ringSetting[]={26,26};
 
 char basicOrder[]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 
@@ -69,6 +70,22 @@ char rotorForward(char m){
 
     //shift first rotor
     shift1++;
+
+    //shift second rotor
+    if(shift1==ringSetting[0])
+    {
+        shift2++;
+    }
+    //shift third rotor
+    if(shift2==ringSetting[1]){
+    shift3++;
+    }
+    if(shift1==26)
+        {shift1=0;}
+    if(shift2==26)
+        {shift2=0;}
+    if(shift3==26)
+        {shift3=0;}
 
     //calculate message character index
     index=m-97;
