@@ -5,7 +5,7 @@ int shift1=0;
 int shift2=0;
 int shift3=0;
 
-int rotorOffset[]={23,6,1};
+int rotorOffset[]={23,6,23};
 
 char basicOrder[]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 
@@ -21,6 +21,10 @@ char rotor3conn[]={'e','k','m','f','l','g','d','q','v','z','n','t','o','w','y','
 
 //Wide reflector B YRUHQSLDPXNGOKMIEBFZCWVJAT
 char reflector[]={'y','r','u','h','q','s','l','d','p','x','n','g','o','k','m','i','e','b','f','z','c','w','v','j','a','t'};
+
+//Enigma I rotorI inverse UWYGADFPVZBECKMTHXSLRINQOJ
+char invRotor3[]={'u','w','y','g','a','d','f','p','v','z','b','e','c','k','m','t','h','x','s','l','r','i','n','q','o','j'};
+
 
 void printArray(char *k);
 char rotorForward(char m);
@@ -144,6 +148,20 @@ char rotorForward(char m){
     printf("\nreflector output is %c\n\n",r);
     #endif
 
+    //calculate inverse third rotor input index
+    index=(index+rotorOffset[2]+shift3)%26;
+
+     #ifdef DEBUG
+    printf("Inverse 3rd rotor input index is %d\n",index);
+    printf("Inverse 3rd rotor input character is %c\n",basicOrder[index]);
+    #endif
+
+    //----Inverse third rotor output index----
+    r=invRotor3[index];
+    index=r-97;
+    #ifdef DEBUG
+    printf("\nInverse third rotor output is %c\n\n",r);
+    #endif
 
     return r;
 }
